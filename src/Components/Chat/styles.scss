@@ -1,0 +1,35 @@
+@import "../../config.scss";
+
+.chat {
+    position: fixed;
+    bottom: 0px;
+    right: 30px;
+    z-index: 999999;
+    .accordion {
+        .card{
+            height: auto !important;
+        }
+        width: 350px;
+        .card-header {
+            background-color: $primary;
+        }
+        .card-body {
+            background-color: $primary;
+            height: 350px;
+            min-height: 350px;
+            overflow-y: auto;
+            > div {
+                height: 100%;
+            }
+        }
+    }
+}
+@media (max-width: $sm) {
+    .chat {
+        left: 0;
+        right: 0;
+        .accordion {
+            width: 100%;
+        }
+    }
+}

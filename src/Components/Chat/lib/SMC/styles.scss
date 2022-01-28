@@ -1,0 +1,20 @@
+.text_body {
+    input {
+        color: white;
+        border: 1px solid white;
+        border-radius: 5px;
+        outline: none !important;
+        &:focus {
+        }
+    }
+}
+.body_message{
+    height: 100%;
+    min-height: 100%;
+    overflow: auto;
+}
+.tstt{
+    overflow-y: auto;
+    flex-grow: 1;
+    max-height:100%;
+}

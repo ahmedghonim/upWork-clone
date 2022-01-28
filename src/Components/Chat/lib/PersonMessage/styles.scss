@@ -1,0 +1,26 @@
+@import "../../../../config.scss";
+.personal_message_container {
+    display: flex;
+    color: white;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+    cursor: pointer;
+    .info {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        .img {
+            background-color: $gray;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+    }
+    .date {
+        font-size: 12px;
+    }
+}
