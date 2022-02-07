@@ -1,11 +1,10 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { AiFillEye } from "react-icons/ai";
 import { IoTrashOutline } from "react-icons/io5";
 import { MdAddCircle, MdModeEditOutline } from "react-icons/md";
 
 const FormSix = ({ number }) => {
   const [addRequirement, setAddRequirement] = useState(false);
-  const [selectAnswer, setSelectAnswer] = useState();
   const [anotherChoice, setAnotherChoice] = useState();
   const [anotherChoices, setAnotherChoices] = useState([]);
   const [requirement, setRequirement] = useState({
@@ -33,16 +32,19 @@ const FormSix = ({ number }) => {
   };
 
   const handelAnotherChoices = () => {
-    setAnotherChoices((prev) => [...prev, anotherChoice]);
-    setRequirement((prevState) => ({
-      ...prevState,
-      choices: anotherChoices,
-    }));
+    setAnotherChoices((prev) => {
+      return [...prev, anotherChoice];
+    });
 
     setAnotherChoice("");
   };
-  
-  console.log(anotherChoices, "beforr");
+
+  useEffect(() => {
+    setRequirement((prevState) => ({
+      ...prevState,
+      choices: [...anotherChoices],
+    }));
+  }, [anotherChoices]);
 
   const handleAddNewRequirement = () => {
     setRequirements((prev) => [...prev, requirement]);
@@ -87,10 +89,10 @@ const FormSix = ({ number }) => {
                   return (
                     <>
                       <span key={index} className="fs-4 fw-bold">
-                        {requirement}
+                        {index+1} - {requirement}
                       </span>
                       {choices.map((choice) => {
-                        return <p className="m-3 fw-700 fs-5">-{choice}</p>;
+                        return <p className="m-3 fw-700 fs-5">● {choice}</p>;
                       })}
                     </>
                   );

@@ -73,8 +73,8 @@ function HomeUser() {
       {/* <!-- Dashboard --> */}
       <section className="col-10">
         <div className="dashboard-outer">
-        {/* <OfferWizard/> */}
-        <ProfileSetting/>
+        <OfferWizard/>
+        {/* <ProfileSetting/> */}
         </div>
       </section>
       {/* <!-- End Dashboard --> */}

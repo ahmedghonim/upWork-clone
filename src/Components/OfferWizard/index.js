@@ -8,10 +8,11 @@ import LoginPopup from "../LoginPopup";
 import FormSix from "./Forms/FormSix";
 import EndForm from "./Forms/EndForm";
 import Completed from "../Completed";
-import {GiCheckMark} from 'react-icons/gi'
-import {MdEdit} from 'react-icons/md'
+import { GiCheckMark } from "react-icons/gi";
+import { MdEdit } from "react-icons/md";
+import {APIProvider} from "./Context";
 export default function OfferWizard() {
-  const [next, setNext] = useState(6);
+  const [next, setNext] = useState(1);
   const AllForms = [
     { form: <FormOne number={next} /> },
     { form: <FormTwo number={next} /> },
@@ -22,24 +23,31 @@ export default function OfferWizard() {
     { form: <EndForm number={next} /> },
   ];
   return (
+    <APIProvider>
     <div className="px-5">
       <div className="d-flex justify-content-evenly py-2">
         {AllForms.map(({ form }, index) => {
           return (
             <div className="d-flex flex-column align-items-center">
-            <span
-            onClick={() => setNext(index)}
-            style={{ width: "40px",height:"40px",cursor:"pointer" }}
-              className={
-                next >= index + 1
-                ? "text-white bg-success border-success border align-items-center  rounded-circle d-flex justify-content-center text-center fs-4"
-                : "text-success border-success border   rounded-circle d-flex align-items-center  justify-content-center text-center fs-4"
-              }
+              <span
+                onClick={() => setNext(index+1)}
+                style={{ width: "40px", height: "40px", cursor: "pointer" }}
+                className={
+                  next >= index + 1
+                    ? "text-white bg-success border-success border align-items-center  rounded-circle d-flex justify-content-center text-center fs-4"
+                    : "text-success border-success border   rounded-circle d-flex align-items-center  justify-content-center text-center fs-4"
+                }
               >
-             {index <= next-1 ? <GiCheckMark/> :index == next ?<MdEdit/>:index+1 }
-            </span>
-            <span>test</span>
-              </div>
+                {index <= next - 1 ? (
+                  <GiCheckMark />
+                ) : index == next ? (
+                  <MdEdit />
+                ) : (
+                  index + 1
+                )}
+              </span>
+              <span>test</span>
+            </div>
           );
         })}
       </div>
@@ -70,5 +78,6 @@ export default function OfferWizard() {
         )}
       </div>
     </div>
+    </APIProvider>
   );
 }
