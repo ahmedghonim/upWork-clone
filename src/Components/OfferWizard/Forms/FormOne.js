@@ -10,7 +10,9 @@ const FormOne = ({ number }) => {
     pluginTypeDB,
     wordpressPluginDB,
     offerWizardFormData,
-    handleFormChange,
+    handleCheckboxFormChange,
+    handleTextFormChange,
+    handleRadioFormChange,
   } = useContext(APIContext);
   console.log(offerWizardFormData);
   return (
@@ -23,7 +25,13 @@ const FormOne = ({ number }) => {
           <form method="post">
             <div className="form-group">
               <label>Title</label>
-              <input type="text" name="" placeholder="Title" />
+              <input
+                onChange={(e) => handleTextFormChange(e.target.value, "title")}
+                value={offerWizardFormData.title}
+                type="text"
+                value={offerWizardFormData.title}
+                placeholder="Title"
+              />
             </div>
             <div className="form-group">
               <h6>specialization</h6>
@@ -33,14 +41,20 @@ const FormOne = ({ number }) => {
                     <div key={specializationId} className="col-md-4 col-sm-6">
                       <div className="input-group checkboxes square">
                         <input
-                          onClick={(e) =>
-                            handleFormChange(e.target.value, "specialization")
+                          onClick={() =>
+                            handleCheckboxFormChange(
+                              specializationId,
+                              "offerSpecializations"
+                            )
                           }
-                          id={nameEn}
-                          value={code}
+                          name={specializationId}
+                          id={specializationId}
+                          defaultChecked={offerWizardFormData[
+                            "offerSpecializations"
+                          ].includes(specializationId)}
                           type="checkbox"
                         />
-                        <label htmlFor={nameEn}>{nameEn}</label>
+                        <label htmlFor={specializationId}>{nameEn}</label>
                       </div>
                     </div>
                   )
@@ -52,13 +66,15 @@ const FormOne = ({ number }) => {
               {categoryDB.data?.map(({ categoryId, code, nameEn }) => (
                 <div key={categoryId}>
                   <input
-                    onClick={(e) =>
-                      handleFormChange(e.target.value, "category")
+                    onClick={() =>
+                      handleRadioFormChange(categoryId, "category")
                     }
-                    value={code}
                     type="radio"
+                    name="category"
+                    id={nameEn}
+                    defaultChecked={offerWizardFormData["category"] == categoryId}
                   />
-                  <label className="me-2">{nameEn}</label>
+                  <label htmlFor={nameEn} className="me-2">{nameEn}</label>
                 </div>
               ))}
             </div>
@@ -69,16 +85,51 @@ const FormOne = ({ number }) => {
                 <div className="form-group">
                   <label>Plugin Type </label>
                   <div className="row">
-                    {pluginTypeDB.data?.map(
-                      ({ pluginTypeId, code, nameEn }) => (
-                        <div key={pluginTypeId} className="col-md-4 col-sm-6">
+                    {pluginTypeDB.data?.map(({ pluginTypeId, nameEn }) => (
+                      <div key={pluginTypeId} className="col-md-4 col-sm-6">
+                        <div className="input-group checkboxes square">
+                          <input
+                            onClick={() =>
+                              handleCheckboxFormChange(
+                                pluginTypeId,
+                                "offerPluginTypes"
+                              )
+                            }
+                            id={nameEn}
+                            defaultChecked={offerWizardFormData[
+                              "offerPluginTypes"
+                            ].includes(pluginTypeId)}
+                            type="checkbox"
+                          />
+                          <label htmlFor={nameEn} className="remember">
+                            <span className="custom-checkbox"></span> {nameEn}
+                          </label>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+                <div className="form-group">
+                  <label>WordPress plugins</label>
+                  <div className="row">
+                    {wordpressPluginDB.data?.map(
+                      ({ wordpressPluginId, nameEn }) => (
+                        <div
+                          key={wordpressPluginId}
+                          className="col-md-4 col-sm-6"
+                        >
                           <div className="input-group checkboxes square">
                             <input
-                              onClick={(e) =>
-                                handleFormChange(e.target.value, "pluginType")
+                              onClick={() =>
+                                handleCheckboxFormChange(
+                                  wordpressPluginId,
+                                  "offerWordpressPlugins"
+                                )
                               }
                               id={nameEn}
-                              value={code}
+                              defaultChecked={offerWizardFormData[
+                                "offerWordpressPlugins"
+                              ].includes(wordpressPluginId)}
                               type="checkbox"
                             />
                             <label htmlFor={nameEn} className="remember">
@@ -91,31 +142,16 @@ const FormOne = ({ number }) => {
                   </div>
                 </div>
                 <div className="form-group">
-                  <label>WordPress plugins</label>
-                  <div className="row">
-                    {wordpressPluginDB.data?.map(
-                      ({ pluginTypeId, code, nameEn }) => (
-                        <div key={pluginTypeId} className="col-md-4 col-sm-6">
-                          <div className="input-group checkboxes square">
-                            <input
-                              onClick={(e) =>
-                                handleFormChange(
-                                  e.target.value,
-                                  "wordPressPlugins"
-                                )
-                              }
-                              id={nameEn}
-                              value={code}
-                              type="checkbox"
-                            />
-                            <label htmlFor={nameEn} className="remember">
-                              <span className="custom-checkbox"></span> {nameEn}
-                            </label>
-                          </div>
-                        </div>
-                      )
-                    )}
-                  </div>
+                  <label className="me-2">Search Tags </label>
+                  <input
+                    onChange={(e) =>
+                      handleTextFormChange(e.target.value, "offerSearchTags")
+                    }
+                    value={offerWizardFormData.offerSearchTags}
+                    type="text"
+                    value={offerWizardFormData.offerSearchTags}
+                    placeholder="Title"
+                  />
                 </div>
               </form>
             </div>

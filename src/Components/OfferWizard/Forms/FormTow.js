@@ -213,10 +213,7 @@ const FormOne = ({ number }) => {
                 </div>
               </div>
 
-              <div className="form-group">
-                <label className="me-2">Search Tags </label>
-                <input type="text" name="" placeholder="Title" />
-              </div>
+            
             </form>
           </div>
         </div>

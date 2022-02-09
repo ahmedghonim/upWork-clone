@@ -15,7 +15,7 @@ export default function OfferWizard() {
   const [next, setNext] = useState(1);
   const AllForms = [
     { form: <FormOne number={next} /> },
-    { form: <FormTwo number={next} /> },
+    // { form: <FormTwo number={next} /> },
     { form: <FormThree number={next} /> },
     { form: <FormFour number={next} /> },
     { form: <FormFive number={next} /> },
@@ -64,7 +64,7 @@ export default function OfferWizard() {
           </button>
         )}
 
-        {next < 7 ? (
+        {next < AllForms.length ? (
           <button
             disabled={next < 0}
             className="theme-btn social-btn-two facebook-btn w-auto"

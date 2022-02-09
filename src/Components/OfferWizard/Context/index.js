@@ -5,10 +5,52 @@ const APIContext = createContext();
 
 function APIProvider({ children }) {
   const [offerWizardFormData, setOfferWizardFormData] = useState({
-    specialization: [],
-    pluginType: [],
-    wordPressPlugins: [],
-    category:[]
+    title: "",
+    offerSpecializations: [],
+    category: "",
+    offerPluginTypes: [],
+    offerWordpressPlugins: [],
+    offerSearchTags: [
+    ],
+    isMultiPackages: 0,
+    offerCategoryItems: [
+      {
+        package: "",
+        projectItemId: "",
+        categoryId: "",
+        categoryItemId: 0,
+        itemValue: "",
+      },
+    ],
+    offerCategoryServices: [
+      {
+        package: "standard",
+        projectServiceId: 1,
+        categoryId: 1,
+        categoryServiceId: 0,
+      },
+    ],
+    offerAdditions: [
+      {
+        categoryId: 1,
+        type: "",
+        fastDeliveryDays: 1,
+        extraPrice: 500,
+        additionalDays: 0,
+        projectItemId: 0,
+        projectServiceId: 0,
+        title: "",
+        description: "",
+      },
+    ],
+    offerCategoryServices: [
+      {
+        package: "standard",
+        projectServiceId: 1,
+        categoryId: 1,
+        categoryServiceId: 0,
+      },
+    ],
   });
 
   const [specializationDB, setSpecializationDB] = useState("");
@@ -43,7 +85,7 @@ function APIProvider({ children }) {
       .catch((err) => console.log(err));
   }, []);
 
-  const handleFormChange = (value, type) => {
+  const handleCheckboxFormChange = (value, type) => {
     if (offerWizardFormData[type].includes(value)) {
       setOfferWizardFormData((prevState) => ({
         ...prevState,
@@ -56,6 +98,20 @@ function APIProvider({ children }) {
       }));
     }
   };
+  
+  const handleTextFormChange = (value, type) => {
+    setOfferWizardFormData((prevState) => ({
+      ...prevState,
+      [type]: value,
+    }));
+  };
+  const handleRadioFormChange = (value, type) => {
+    setOfferWizardFormData((prevState) => ({
+      ...prevState,
+      [type]: value,
+    }));
+  };
+  
 
   const value = {
     offerWizardFormData,
@@ -64,8 +120,12 @@ function APIProvider({ children }) {
     specializationDB,
     categoryDB,
     pluginTypeDB,
-    handleFormChange,
+    handleCheckboxFormChange,
+    handleTextFormChange,
+    handleRadioFormChange,
+    
   };
+
   return <APIContext.Provider value={value}>{children}</APIContext.Provider>;
 }
 export { APIProvider, APIContext };

@@ -21,7 +21,7 @@ const EndForm = ({ number }) => {
             <div className="hr pt-4 ">
               <h2 className="fs-5">maximin number of simultaneous project </h2>
               <p>
-                Howmaney project you can handel at one stile delivery great
+                Homaged project you can handel at one stile delivery great
                 results
               </p>
               <div className="d-flex">

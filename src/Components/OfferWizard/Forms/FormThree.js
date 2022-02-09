@@ -1,27 +1,19 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import { MdAddCircle } from "react-icons/md";
 import { IoTrashOutline } from "react-icons/io5";
+import { APIContext } from "../Context";
 
 const FormThree = ({ number }) => {
-  const [threeTiers, setThreeTiers] = useState(false);
-  const dbC = [
-    { title: "delivery days", input_type: "checkbox" },
-    { title: "Number of Revision", input_type: "radio" },
-    { title: "Number of product", input_type: "radio" },
-    { title: "Number of Pages", input_type: "radio" }
-  ];
-  const dbS = [
-    { title: "data customize", input_type: "number" },
-    { title: "Content Upload", input_type: "number" },
-
-  ];
-  const dbP = [
-    {
-      title: "Prices",
-      input_type: "number",
-      value: [10, 20, 30],
-    },
-  ];
+  const {
+    specializationDB,
+    categoryDB,
+    handleTextFormChange,
+    offerWizardFormData,
+    handleRadioFormChange,
+  } = useContext(APIContext);
+  const { data } = categoryDB;
+  // console.log(projectItems);
+  console.log(offerWizardFormData);
   return (
     <div className="outer-box">
       {/* Login Form */}
@@ -45,7 +37,13 @@ const FormThree = ({ number }) => {
                     <label className="switch">
                       <input
                         type="checkbox"
-                        onChange={() => setThreeTiers(!threeTiers)}
+                        onClick={(e) =>
+                          handleRadioFormChange(
+                            e.target.checked ? 1 : 0,
+                            "isMultiPackages"
+                          )
+                        }
+                        defaultChecked={offerWizardFormData["isMultiPackages"]}
                       />
                       <span className="slider round"></span>
                       <span className="title">3 Tiers</span>
@@ -65,41 +63,39 @@ const FormThree = ({ number }) => {
                           <tr>
                             <th></th>
                             <th className="text-center p-3 fs-5"> Starter </th>
-                            {threeTiers && (
+                            {offerWizardFormData["isMultiPackages"] && (
                               <th className="text-center p-3 fs-5">Stander</th>
                             )}
-                            {threeTiers && (
+                            {offerWizardFormData["isMultiPackages"] && (
                               <th className="text-center p-3 fs-5">Advanced</th>
                             )}
                           </tr>
-                          {dbC.map(({ title, input_type }) => (
-                            <tr>
+                          {categoryDB.data[
+                            offerWizardFormData.category
+                          ]?.projectItems.map(({ projectItemId, nameEn }) => (
+                            <tr key={projectItemId}>
                               <td width="200px" className=" p-2">
-                                {title}
+                                {nameEn}
                               </td>
                               <td width="200px" className=" text-center p-2">
                                 <input
-                                  type={input_type}
-                                  name={title}
-                                  id="radio-1"
+                                  onChange={() =>
+                                    handleTextFormChange(
+                                      projectItemId,
+                                      "offerCategoryItems"
+                                    )
+                                  }
+                                  type="text"
                                 />
                               </td>
-                              {threeTiers && (
+                              {offerWizardFormData["isMultiPackages"] && (
                                 <td width="200px" className=" text-center p-2">
-                                  <input
-                                    type={input_type}
-                                    name={title}
-                                    id="radio-1"
-                                  />
+                                  <input type="text" />
                                 </td>
                               )}
-                              {threeTiers && (
+                              {offerWizardFormData["isMultiPackages"] && (
                                 <td width="200px" className=" text-center p-2">
-                                  <input
-                                    type={`${input_type}`}
-                                    name={title}
-                                    id="radio-1"
-                                  />
+                                  <input type="text" />
                                 </td>
                               )}
                             </tr>
@@ -113,36 +109,36 @@ const FormThree = ({ number }) => {
                     <div className="table-outer">
                       <table className="default-table">
                         <tbody>
-                          {dbS.map(({ title }) => (
-                            <tr>
-                              <td width="200px">{title}</td>
-                              <td width="200px" className="text-center">
-                                <input
-                                  id="check-a"
-                                  type="checkbox"
-                                  name="check"
-                                />
-                              </td>
-                              {threeTiers && (
-                                <td width="200px" className="text-center">
-                                  <input
-                                    id="check-a"
-                                    type="checkbox"
-                                    name="check"
-                                  />
+                          {categoryDB.data[
+                            offerWizardFormData.category
+                          ]?.projectServices.map(
+                            ({ projectServiceId, nameEn }) => (
+                              <tr key={projectServiceId}>
+                                <td width="200px" className=" p-2">
+                                  {nameEn}
                                 </td>
-                              )}
-                              {threeTiers && (
-                                <td width="200px" className="text-center">
-                                  <input
-                                    id="check-a"
-                                    type="checkbox"
-                                    name="check"
-                                  />
+                                <td width="200px" className=" text-center p-2">
+                                  <input type="checkbox" />
                                 </td>
-                              )}
-                            </tr>
-                          ))}
+                                {offerWizardFormData["isMultiPackages"] && (
+                                  <td
+                                    width="200px"
+                                    className=" text-center p-2"
+                                  >
+                                    <input type="checkbox" />
+                                  </td>
+                                )}
+                                {offerWizardFormData["isMultiPackages"] && (
+                                  <td
+                                    width="200px"
+                                    className=" text-center p-2"
+                                  >
+                                    <input type="checkbox" />
+                                  </td>
+                                )}
+                              </tr>
+                            )
+                          )}
                         </tbody>
                       </table>
                     </div>
@@ -151,42 +147,37 @@ const FormThree = ({ number }) => {
                     <div className="table-outer">
                       <table className="default-table">
                         <tbody>
-                          {dbP.map(({ value }) => (
-                            <tr>
-                              <td width="200px">Project Price</td>
+                          <tr>
+                            <td width="200px">Project Price</td>
+                            <td width="200px" className="p-2">
+                              <input
+                                type="text"
+                                name="radio"
+                                id="radio-1"
+                                defaultChecked=""
+                              />
+                            </td>
+                            {offerWizardFormData["isMultiPackages"] && (
                               <td width="200px" className="p-2">
                                 <input
                                   type="text"
                                   name="radio"
                                   id="radio-1"
-                                  checked=""
-                                  defaultValue={value[0]}
+                                  defaultChecked=""
                                 />
                               </td>
-                              {threeTiers && (
-                                <td width="200px" className="p-2">
-                                  <input
-                                    type="text"
-                                    name="radio"
-                                    id="radio-1"
-                                    checked=""
-                                    defaultValue={value[1]}
-                                  />
-                                </td>
-                              )}
-                              {threeTiers && (
-                                <td width="200px" className="p-2">
-                                  <input
-                                    type="text"
-                                    name="radio"
-                                    id="radio-1"
-                                    checked=""
-                                    defaultValue={value[2]}
-                                  />
-                                </td>
-                              )}
-                            </tr>
-                          ))}
+                            )}
+                            {offerWizardFormData["isMultiPackages"] && (
+                              <td width="200px" className="p-2">
+                                <input
+                                  type="text"
+                                  name="radio"
+                                  id="radio-1"
+                                  defaultChecked=""
+                                />
+                              </td>
+                            )}
+                          </tr>
                         </tbody>
                       </table>
                     </div>
@@ -209,23 +200,18 @@ const FormThree = ({ number }) => {
                             <th></th>
                             <th className="text-center p-3 fs-5"> Standard </th>
                           </tr>
-
-                          <tr>
-                            <td width="200px" className=" p-2">
-                              Delivery Days
-                            </td>
-                            <td width="200px" className=" text-center p-2">
-                              <input type="text" id="radio-1" />
-                            </td>
-                          </tr>
-                          <tr>
-                            <td width="200px" className=" p-2">
-                              For an extra
-                            </td>
-                            <td width="200px" className=" text-center p-2">
-                              <input type="text" id="radio-1" />
-                            </td>
-                          </tr>
+                          {categoryDB.data[
+                            offerWizardFormData.category
+                          ]?.projectItems.map(({ projectItemId, nameEn }) => (
+                            <tr key={projectItemId}>
+                              <td width="200px" className=" p-2">
+                                {nameEn}
+                              </td>
+                              <td width="200px" className=" text-center p-2">
+                                <input type="text" />
+                              </td>
+                            </tr>
+                          ))}
                         </tbody>
                       </table>
                     </div>
@@ -285,7 +271,7 @@ const FormThree = ({ number }) => {
                                 Title
                               </td>
                               <td
-                                colspan="2"
+                                colSpan="2"
                                 width="200px"
                                 className=" text-center p-2"
                               >
@@ -298,7 +284,7 @@ const FormThree = ({ number }) => {
                               </td>
                               <td
                                 width="200px"
-                                colspan="2"
+                                colSpan="2"
                                 className=" text-center p-2"
                               >
                                 <textarea type="text" id="radio-1" />
